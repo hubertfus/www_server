@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Prosty Serwer WWW</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+      header {
+        background-color: #4caf50;
+        color: white;
+        padding: 15px 0;
+        text-align: center;
+      }
+      main {
+        padding: 20px;
+      }
+      h1,
+      h2 {
+        color: #4caf50;
+      }
+      pre {
+        background-color: #f1f1f1;
+        border: 1px solid #ddd;
+        padding: 10px;
+        font-size: 14px;
+      }
+      footer {
+        background-color: #4caf50;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Prosty Serwer WWW</h1>
+      <p>To jest przykładowa strona informacyjna dla prostego serwera WWW.</p>
+    </header>
+
+    <main>
+      <h2>Jak skonfigurować serwer</h2>
+      <p>
+        Serwer jest napisany w Pythonie i wykorzystuje bibliotekę
+        <strong>socket</strong> do obsługi zapytań HTTP. Oto jak skonfigurować
+        serwer:
+      </p>
+
+      <h3>Kroki konfiguracji:</h3>
+      <ol>
+        <li>
+          <strong>Utwórz plik konfiguracyjny:</strong> W katalogu, w którym
+          uruchamiasz serwer, utwórz plik <code>config.ini</code> z poniższą
+          zawartością:
+        </li>
+      </ol>
+
+      <pre>
+[server]
+HOST = 127.0.0.1
+PORT = 8080
+WORKING_DIR = www
+ALLOWED_FILES = html,css,js
+        </pre
+      >
+
+      <ol start="2">
+        <li>
+          <strong>Tworzenie katalogu roboczego:</strong> Upewnij się, że w
+          katalogu roboczym (domyślnie <code>www</code>) znajdują się pliki,
+          które chcesz udostępnić przez serwer.
+        </li>
+        <li>
+          <strong>Uruchomienie serwera:</strong> W terminalu uruchom skrypt
+          serwera, np. <code>python3 server.py</code>.
+        </li>
+        <li>
+          <strong>Odwiedzenie serwera:</strong> Otwórz przeglądarkę i wpisz w
+          pasku adresu <code>http://127.0.0.1:8080</code> (lub inny host i port,
+          jeśli je zmieniłeś w pliku konfiguracyjnym).
+        </li>
+      </ol>
+
+      <h3>Obsługiwane pliki:</h3>
+      <p>
+        Serwer obsługuje pliki o rozszerzeniach zdefiniowanych w pliku
+        konfiguracyjnym w sekcji <code>ALLOWED_FILES</code>. Domyślnie są to
+        pliki HTML, CSS i JS.
+      </p>
+      <p>
+        W przypadku próby dostępu do pliku o nieobsługiwanym rozszerzeniu,
+        serwer zwróci odpowiedni błąd.
+      </p>
+    </main>
+
+    <footer>
+      <p>Prosty Serwer WWW &copy; 2025</p>
+    </footer>
+  </body>
+</html>
