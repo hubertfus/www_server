@@ -1,0 +1,3 @@
+old_page.html -> new_page.html
+new_page.html -> not_a_final_page.html
+new_page.html -> final_page.html

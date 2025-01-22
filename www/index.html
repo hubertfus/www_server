@@ -37,7 +37,6 @@
         color: white;
         text-align: center;
         padding: 10px 0;
-        position: fixed;
         width: 100%;
         bottom: 0;
       }
@@ -72,8 +71,7 @@ HOST = 127.0.0.1
 PORT = 8080
 WORKING_DIR = www
 ALLOWED_FILES = html,css,js
-        </pre
-      >
+      </pre>
 
       <ol start="2">
         <li>
@@ -83,7 +81,7 @@ ALLOWED_FILES = html,css,js
         </li>
         <li>
           <strong>Uruchomienie serwera:</strong> W terminalu uruchom skrypt
-          serwera, np. <code>python3 server.py</code>.
+          serwera, np. <code>python3 main.py</code>.
         </li>
         <li>
           <strong>Odwiedzenie serwera:</strong> Otwórz przeglądarkę i wpisz w
@@ -102,6 +100,110 @@ ALLOWED_FILES = html,css,js
         W przypadku próby dostępu do pliku o nieobsługiwanym rozszerzeniu,
         serwer zwróci odpowiedni błąd.
       </p>
+
+      <h2>Dokumentacja serwera</h2>
+      <p>
+        Ten serwer jest prostym serwerem HTTP stworzonym w Pythonie, używającym
+        gniazd (`socket`) do obsługi zapytań. Posiada funkcje logowania, kontrolowania
+        dostępu, oraz obsługi przekierowań.
+      </p>
+
+      <h3>Struktura plików:</h3>
+      <pre>
+C:.
+│   .gitignore
+│   .htaccess
+│   access_log.txt
+│   config.ini
+│   Dockerfile
+│   main.py
+│   redirect_log.txt
+│
+└───www
+    │   final_page.html
+    │   index.html
+    │
+    └───private
+            publiced.html
+      </pre>
+
+      <h3>Pliki konfiguracyjne i inne:</h3>
+      <p>
+        <strong>config.ini</strong> - Plik konfiguracyjny, w którym można określić host,
+        port, katalog roboczy i rozszerzenia plików, które mają być obsługiwane.
+      </p>
+      <p>
+        <strong>.htaccess</strong> - Plik konfiguracyjny, który określa zasady dostępu
+        do plików i katalogów na serwerze. Możesz w nim zdefiniować, które pliki
+        są dostępne, a które są zablokowane.
+      </p>
+      <p>
+        W tym pliku możesz ustawić reguły, takie jak:
+        <ul>
+          <li><strong>Deny from [ścieżka]</strong> - blokowanie dostępu do określonych plików lub katalogów.</li>
+          <li><strong>Allow from [ścieżka]</strong> - zezwalanie na dostęp do określonych plików lub katalogów.</li>
+        </ul>
+        Przykład zawartości pliku <code>.htaccess</code>:
+      </p>
+
+      <pre>
+Deny from secret.html
+Deny from private/
+Allow from private/publiced.html
+      </pre>
+
+      <p>
+        <strong>redirect_log.txt</strong> - Plik z listą przekierowań, który wskazuje,
+        gdzie pliki zostały przeniesione, pozwalając serwerowi na przekierowanie użytkowników.
+      </p>
+
+      <h3>Właściwości serwera:</h3>
+      <ul>
+        <li><strong>Logowanie:</strong> Serwer zapisuje wszystkie zapytania oraz błędy do plików
+            <code>access_log.txt</code> i <code>error_log.txt</code>.</li>
+        <li><strong>Kontrola dostępu:</strong> Serwer wykorzystuje plik <code>.htaccess</code> do zezwalania
+            i zabraniania dostępu do określonych plików i katalogów.</li>
+        <li><strong>Przekierowania:</strong> Przekierowania są zapisywane w pliku <code>redirect_log.txt</code>,
+            a serwer będzie automatycznie przekierowywał użytkowników w razie potrzeby.</li>
+      </ul>
+
+      <h3>Docker Setup:</h3>
+      <pre>
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY . /app
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN mkdir -p /app/www
+
+COPY config.ini /app/config.ini
+
+COPY .htaccess /app/.htaccess
+
+COPY .htaccess /app/redirect_log.txt
+
+COPY www/ /app/www/
+
+ENV PYTHONUNBUFFERED=1
+
+CMD ["python", "main.py"]
+      </pre>
+
+      <h3>Jak używać serwera:</h3>
+      <p>Serwer może być uruchomiony lokalnie lub w kontenerze Docker.</p>
+      <h4>Uruchomienie serwera lokalnie:</h4>
+      <pre>
+python main.py
+      </pre>
+      <h4>Uruchomienie serwera w Dockerze:</h4>
+      <pre>
+docker build -t simple-http-server .
+docker run -p 8080:8080 simple-http-server
+      </pre>
+
     </main>
 
     <footer>
